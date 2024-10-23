@@ -67,7 +67,7 @@ Utveckla och presentera en Proof of Concept (PoC) för en säker IoT-lösning so
 
 ## Anpassning till **Cyber Resilience Act (CRA)**
 
-### 1. Securtiy-by-design
+### 1. Security-by-design
 - **Inbyggd kryptering:** ESP32 kommunicerar med ThingSpeak via **HTTPS**, vilket skyddar data i transit.
 - **Autentisering:** Varje enhet använder en unik API-nyckel för att autentisera sig mot ThingSpeak.
 - **WiFi-säkerhet:** Säker WiFi-kommunikation genom WPA2- eller WPA3-kryptering.
