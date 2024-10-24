@@ -18,7 +18,7 @@ Utveckla och presentera en Proof of Concept (PoC) för en säker IoT-lösning so
 ## Lösningsbeskrivning
 
 ### 1. Arkitektur
-- **Sensorenhet (ESP32):** ESP32 är ansluten till sensorer som mäter olika parametrar (t.ex. temperatur, luftfuktighet) och använder **WiFi** för att ansluta till internet.
+- **Sensorenhet (ESP32):** ESP32 är ansluten till sensor som mäter olika parametrar (Temperatur, luftfuktighet) och använder **WiFi** för att ansluta till internet.
   
 - **Molnplattform (ThingSpeak):** ESP32-enheten kommunicerar med **ThingSpeak** via **MQTT** för att skicka sensordata. **ThingSpeak** används för att lagra, analysera och visualisera data.
 
