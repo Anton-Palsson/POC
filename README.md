@@ -9,7 +9,7 @@ Uppgiften är att ta fram en fungerande prototyp som demonstrerar säker kommuni
 Utveckla och presentera en Proof of Concept (PoC) för en säker IoT-lösning som potentiellt kan gå vidare till produktionsfas. PoC ska inkludera:
 - En **ESP32-baserad sensorlösning** som kommunicerar via **WiFi**.
 - Anslutning till **ThingSpeak** för datainsamling och visualisering.
-- Implementering av **säker kommunikation** (t.ex. HTTPS eller TLS).
+- Implementering av **säker kommunikation** (HTTPS).
 - Systemspecifikation och analys av hur lösningen uppfyller **CRA-kraven**.
 
 ---
