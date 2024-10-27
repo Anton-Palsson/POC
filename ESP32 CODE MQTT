@@ -12,7 +12,7 @@ DHT dht(DHTPIN, DHTTYPE);
 const char *ssid = "Telia-1D4CC42.4";
 const char *password = "4JR34ZmW341KFmZu"; 
 const char *mqtt_server = "3425bdddee6140f49b7e11817e78d76f.s1.eu.hivemq.cloud";
-const int mqtt_port = 8883;  // MQTT TLS port (often 8883)
+const int mqtt_port = 8883;
 const char *mqtt_username = "esp32";
 const char *mqtt_password = "123";
 
