@@ -1,61 +1,83 @@
-# Design och Implementering av en Säker IoT-lösning (Proof of Concept)
+# **Design och Implementering av en Säker IoT-lösning (Proof of Concept)**
 
-## Scenario
-Ni är anställda som IoT-utvecklare på ett tech house och har blivit tilldelade att utveckla ett Proof of Concept (PoC) för en potentiell kund. Kunden är intresserad av att se hur en säker och robust IoT-lösning kan hjälpa dem att övervaka och hantera sina enheter på distans.
+## **Projektöversikt**
+Som IoT-utvecklare på tech house har jag utvecklat en Proof of Concept (PoC) för en säker IoT-lösning åt en potentiell kund. Lösningen demonstrerar hur säker kommunikation kan användas för att fjärrövervaka enheter och visar upp en fungerande infrastruktur som uppfyller grundläggande säkerhetskrav enligt Cyber Resilience Act (CRA).
 
-Uppgiften är att ta fram en fungerande prototyp som demonstrerar säker kommunikation, en fungerande infrastruktur och som tar hänsyn till de grundläggande kraven från **Cyber Resilience Act (CRA)**.
+## **Mål**
+Utveckla och demonstrera en säker IoT-lösning som innehåller:
+- En fungerande sensorprototyp
+- Säker dataöverföring med hjälp av TLS-kryptering och HTTPS
+- Grundläggande infrastruktur som kan utvidgas för att möta CRA:s säkerhetskrav i en produktionsmiljö
 
-## Mål
-Utveckla och presentera en Proof of Concept (PoC) för en säker IoT-lösning som potentiellt kan gå vidare till produktionsfas. PoC ska inkludera:
+## **Lösningens Komponenter**
 
-- En **ESP32-baserad sensorlösning** som kommunicerar via **WiFi**.
-- Anslutning till **ThingSpeak** för datainsamling och visualisering.
-- Implementering av **säker kommunikation** (via **MQTT med TLS**).
-- Systemspecifikation och analys av hur lösningen uppfyller **CRA-kraven**.
+### **1. IoT-Prototyp**
+Denna PoC använder en fysisk ESP32 för att mäta temperatur och luftfuktighet. Sensorvärdena skickas via MQTT-protokollet till en broker (HiveMQ), som sedan hanteras i Node-RED. Data bearbetas för att skapa en struktur som skickas vidare till InfluxDB för lagring och visualisering i Grafana.
 
----
+### **2. Kommunikationsflöde**
+Dataflödet i systemet fungerar enligt följande:
+1. **Sensorenhet**: En fysisk sensor samlar in temperatur- och luftfuktighetsdata.
+2. **MQTT Broker**: Sensorvärden publiceras på MQTT, och brokern säkerställer dataöverföring till Node-RED.
+3. **Node-RED**: Bearbetar och strukturerar data innan den skickas vidare till InfluxDB.
+4. **InfluxDB**: Tar emot och lagrar data i en tidsserie, vilket möjliggör visualisering och analys.
+5. **Grafana**: Används för att skapa dashboards som visualiserar data i realtid.
 
-## Lösningsbeskrivning
+### **3. Säker Kommunikationsväg**
+För att skydda datan används TLS för att säkra kommunikationen mellan MQTT-broker och klienter. HTTPS används också som ett säkerhetslager i all kommunikation mellan Node-RED, InfluxDB och Grafana. Genom användningen av HTTPS, förväntas en säker anslutning mellan de komponenterna, vilket garanterar datans integritet och sekretess. Den fysiska devicens design bör ses över när det gäller fysisk manipulering. 
 
-### 1. Arkitektur
-- **Sensorenhet (ESP32):** ESP32 är ansluten till sensor som mäter olika parametrar (Temperatur, luftfuktighet) och använder **WiFi** för att ansluta till internet.
+### **Användning av Tokens**
+För att hantera autentisering och accesskontroll på ett säkert sätt används tokens för både InfluxDB och Grafana. Detta gör det möjligt att begränsa och säkra tillgången till olika tjänster samt logga och övervaka användningen. Med tokens säkerställs att bara auktoriserade enheter och användare får åtkomst, vilket är centralt för att följa CRA:s krav på säkerhet och åtkomstkontroll.
+
+## **Framtida Utveckling: Direkta Integrationsmöjligheter**
+
+### **Direktkoppling mellan HiveMQ och InfluxDB**
+I framtiden skulle en direkt integration mellan HiveMQ och InfluxDB kunna övervägas för att minska beroendet av Node-RED, vilket kan minska antalet systemkomponenter och därmed komplexiteten. Denna lösning kan dock innebära extra kostnader, då direkta integrationslösningar kräver specifik licensiering eller teknisk support, beroende på valda tjänster.
+
+## **Systemspecifikation och Anpassning till CRA**
+
+### **Arkitektur**
+- **Sensorenhet**: En fysisk ESP32 med inkopplad sensor skickar data via MQTT, där temperatur och luftfuktighet mäts och skickas periodiskt.
+- **Gateway och Broker**: En MQTT-broker genom cloud fungerar som mellanstation och säkerställer tillförlitlig dataöverföring.
+- **Datahantering**: Node-RED bearbetar och strukturerar datan innan lagring.
+- **Lagring och Visualisering**: InfluxDB lagrar data som en tidsserie, medan Grafana möjliggör visualisering av denna data.
+
+### **Säkerhetsåtgärder**
+1. **Datakryptering**: TLS används för att kryptera all dataöverföring, vilket skyddar data i transit. HTTPS ger dessutom ett extra skyddslager i kommunikationerna.
+2. **Autentisering**: Vid användning av mTLS skulle både klient och broker verifiera varandra för ökad säkerhet, även om detta är en framtida förbättring i PoC.
+3. **Accesskontroll**: Rollbaserad access kan läggas till för att begränsa åtkomst på servernivå i framtida versioner.
+
+### **CRA-krav och Hur Lösningen Uppfyller Dem**
+1. **Security-by-Design**: Säkerhet har byggts in i designen genom att använda TLS för säker kommunikation och förbereda för rollbaserad accesskontroll.
+2. **Uppdaterbarhet**: Framtida versioner kan stödja OTA-uppdateringar för att säkerställa att sårbarheter kan patchas.
+3. **Sårbarhetshantering**: Genom loggning och övervakning i Grafana kan framtida intrång eller avvikande aktiviteter upptäckas och hanteras.
+
+## **Skalbarhet och Utmaningar för Storskaliga Implementationer**
+
+Om projektet skalas upp till att omfatta hundratals eller tusentals enheter kan systemet behöva optimeras för att hantera de stora datamängderna och säkerställa att kommunikationen förblir säker och snabb. Här är några överväganden vid storskalig implementering:
+
+### **Fördelar**
+- **Centraliserad kontroll och insamling**: Med en central MQTT-broker och InfluxDB kan all data enkelt samlas och analyseras, vilket ger en tydlig överblick över hela systemet.
+- **Anpassningsbarhet genom Node-RED**: Node-RED möjliggör flexibel uppbyggnad av dataflöden och snabb integration med andra system, vilket gör att nya funktioner enkelt kan läggas till vid behov.
+- **Skalbar visualisering**: Grafana kan enkelt anpassas för att visualisera stora mängder data i realtid, vilket gör den väl lämpad för övervakning i större system.
+- **Modulär arkitektur**: De tydligt separerade komponenterna (HiveMQ, Node-RED, InfluxDB och Grafana) gör det enkelt att förbättra eller byta ut enskilda delar av systemet.
+- **Säker kommunikation med HTTPS och TLS**: Användning av HTTPS och TLS skyddar all dataöverföring, vilket säkerställer att systemet möter aktuella säkerhetskrav.
+
+### **Nackdelar**
+- **Ökade infrastrukturkostnader**: Vid storskalig användning kan kostnaderna för molntjänster och lagring öka snabbt. En direktintegration mellan HiveMQ och InfluxDB skulle kunna minska kostnaderna på längre sikt, men kräver licensierade tjänster eller specifik teknisk kompetens.
   
-- **Molnplattform (ThingSpeak):** ESP32-enheten kommunicerar med **ThingSpeak** via **MQTT** för att skicka sensordata. **ThingSpeak** används för att lagra, analysera och visualisera data.
+- **Komplex accesskontroll**: Vid många anslutna enheter krävs skalbara mekanismer för autentisering och åtkomstkontroll för att upprätthålla säkerheten. Detta innebär ökad komplexitet och underhållsbehov för att säkerställa att endast behöriga enheter kan ansluta till systemet.
 
-- **Kommunikation:** Data skickas från ESP32 till ThingSpeak via **MQTT över TLS (Transport Layer Security)** för att säkerställa krypterad och säker dataöverföring.
+- **Utmaningar med säkerhetsuppdateringar**: Med många enheter är det avgörande att kunna rulla ut säkerhetsuppdateringar effektivt och säkert. En robust lösning för OTA-uppdateringar och rollback krävs för att undvika driftsavbrott och säkerhetsproblem, särskilt vid storskalig drift.
 
-- **Användargränssnitt:** ThingSpeak erbjuder inbyggda visualiseringsverktyg som kan användas för att skapa grafer och visa data i realtid.
+- **Node-RED som potentiell flaskhals**: Node-RED fungerar som ett mellanlager för bearbetning av data mellan MQTT och InfluxDB. Vid hög belastning kan Node-RED bli en flaskhals, vilket kräver optimering och eventuellt fler resursallokeringar för att hantera stora datamängder.
 
-#### Arkitekturdiagram:
-**ESP32 (WiFi) → MQTT Broker (ThingSpeak MQTT över TLS) → ThingSpeak Dashboard (Visualisering)**
+- **Prestanda vid stor skala**: Att hantera tusentals enheter som skickar data kontinuerligt innebär högre krav på systemets prestanda och stabilitet. Detta kan kräva dedikerade servrar eller extra resurser för att bibehålla driftkvaliteten.
 
----
+- **Direktkoppling till InfluxDB**: Att direkt ansluta HiveMQ till InfluxDB är ett alternativ som kan minska beroendet av Node-RED och förenkla arkitekturen. Dock krävs en stark säkerhetsstrategi för att säkerställa datakvalitet och skydda datan, vilket kan innebära extra kostnader och tekniska utmaningar.
 
-### 2. Kommunikationsflöde
-1. **ESP32** samlar in data från sensorer.
-2. ESP32-enheten ansluter till **WiFi** och kommunicerar via **MQTT** med **ThingSpeak** över en **TLS-krypterad anslutning**.
-3. **ThingSpeak** tar emot, lagrar och visualiserar data i realtid via sin webbaserade dashboard.
 
 ---
 
-### 3. Säkerhetsåtgärder
-- **Kryptering av dataöverföring:** Kommunikation mellan ESP32 och ThingSpeak sker via **MQTT över TLS**, vilket innebär att data krypteras under överföring för att skydda mot avlyssning och man-in-the-middle-attacker.
-  
-- **WiFi-säkerhet:** Använd **WPA2** eller bättre för att säkra WiFi-anslutningen mellan ESP32 och nätverket.
-
-- **MQTT-autentisering:** Varje ESP32-enhet autentiseras mot ThingSpeak via **MQTT** med en specifik **API-nyckel** och autentisering sker med **MQTT-användarnamn och lösenord**. Detta förhindrar obehöriga enheter från att skicka data till plattformen.
-
----
-
-### 4. Systemspecifikation och CRA-krav
-
-#### Arkitekturkomponenter
-- **ESP32 Sensorenhet:** Samlar in data och ansluter via WiFi till ThingSpeak via MQTT.
-- **ThingSpeak (Molnplattform):** Samlar in, lagrar och visualiserar data.
-- **WiFi-kommunikation:** ESP32 använder WiFi och MQTT över TLS för att skicka data till ThingSpeak.
-
-#### Säkerhetsfunktioner
-- **MQTT över TLS:** All kommunikation mellan ESP32 och ThingSpeak sker via krypterade MQTT-förfrågningar, vilket skyddar dataintegriteten.
-- **WiFi-säkerhet:** Användning av stark WiFi-säkerhet (WPA2 eller bättre) för att förhindra obehörig åtkomst till det lokala nätverket.
-- **API-nyckel-autentisering:** ThingSpeak använder API-nycklar och MQTT-lösenord för att autentisera enheterna.
+## **Sammanfattning**
+Denna PoC demonstrerar en säker IoT-lösning som möter kundens behov. Med denna grund kan systemet enkelt utvidgas till en produktionsfärdig lösning som efterlever CRA och inkluderar ytterligare säkerhetsfunktioner och skalbara integrationslösningar. HTTPS används i hela systemet för säker kommunikation mellan tjänster, och autentisering med tokens tillämpas för både Grafana och InfluxDB för att förstärka säkerheten ytterligare.
 
