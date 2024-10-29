@@ -79,5 +79,5 @@ Om projektet skalas upp till att omfatta hundratals eller tusentals enheter kan 
 ---
 
 ## **Sammanfattning**
-Denna PoC demonstrerar en säker IoT-lösning som möter kundens behov. Med denna grund kan systemet enkelt utvidgas till en produktionsfärdig lösning som efterlever CRA och inkluderar ytterligare säkerhetsfunktioner och skalbara integrationslösningar. HTTPS används i hela systemet för säker kommunikation mellan tjänster, och autentisering med tokens tillämpas för både Grafana och InfluxDB för att förstärka säkerheten ytterligare.
+Denna PoC demonstrerar en säker IoT-lösning som möter kundens behov. Med denna grund kan systemet enkelt utvidgas till en produktionsfärdig lösning som efterlever CRA och inkluderar ytterligare säkerhetsfunktioner och skalbara integrationslösningar. HTTPS används i hela systemet för säker kommunikation mellan tjänster, och autentisering med tokens tillämpas för både Grafana och InfluxDB för att förstärka säkerheten ytterligare. I projekt mappen hittar man Screenshot på fungerande prototyp samt koden till esp32:an 
 
