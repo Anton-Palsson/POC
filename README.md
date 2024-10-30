@@ -16,7 +16,9 @@ Denna PoC använder en fysisk ESP32 för att mäta temperatur och luftfuktighet.
 
 ### **2. Kommunikationsflöde**
 Dataflödet i systemet fungerar enligt följande:
-1. **Sensorenhet**: En fysisk sensor samlar in temperatur- och luftfuktighetsdata.
+1. **Sensorenhet**: En fysisk ESP32 med dht sensor samlar in temperatur- och luftfuktighetsdata.
+![IMG_6618](https://github.com/user-attachments/assets/3c5ff286-71de-48d4-a967-012e8267a04c)
+
 2. **MQTT Broker**: Sensorvärden publiceras på MQTT, och brokern säkerställer dataöverföring till Node-RED.
  ![HIVEMQ CLOUD](https://github.com/user-attachments/assets/9305adfe-6501-4a2e-8962-9dc65017631e)
 
