@@ -18,9 +18,11 @@ Denna PoC använder en fysisk ESP32 för att mäta temperatur och luftfuktighet.
 Dataflödet i systemet fungerar enligt följande:
 1. **Sensorenhet**: En fysisk sensor samlar in temperatur- och luftfuktighetsdata.
 2. **MQTT Broker**: Sensorvärden publiceras på MQTT, och brokern säkerställer dataöverföring till Node-RED.
-3. **Node-RED**: Bearbetar och strukturerar data innan den skickas vidare till InfluxDB.
-4. **InfluxDB**: Tar emot och lagrar data i en tidsserie, vilket möjliggör visualisering och analys.
-5. **Grafana**: Används för att skapa dashboards som visualiserar data i realtid.
+3. ![HIVEMQ CLOUD](https://github.com/user-attachments/assets/9305adfe-6501-4a2e-8962-9dc65017631e)
+
+4. **Node-RED**: Bearbetar och strukturerar data innan den skickas vidare till InfluxDB.
+5. **InfluxDB**: Tar emot och lagrar data i en tidsserie, vilket möjliggör visualisering och analys.
+6. **Grafana**: Används för att skapa dashboards som visualiserar data i realtid.
 
 ### **3. Säker Kommunikationsväg**
 För att skydda datan används TLS för att säkra kommunikationen mellan MQTT-broker och klienter. HTTPS används också som ett säkerhetslager i all kommunikation mellan Node-RED, InfluxDB och Grafana. Genom användningen av HTTPS, förväntas en säker anslutning mellan de komponenterna, vilket garanterar datans integritet och sekretess. Den fysiska devicens design bör ses över när det gäller fysisk manipulering. 
