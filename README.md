@@ -13,23 +13,25 @@ Utveckla och demonstrera en säker IoT-lösning som innehåller:
 
 ### **1. IoT-Prototyp**
 Denna PoC använder en fysisk ESP32 för att mäta temperatur och luftfuktighet. Sensorvärdena skickas via MQTT-protokollet till en broker (HiveMQ), som sedan hanteras i Node-RED. Data bearbetas för att skapa en struktur som skickas vidare till InfluxDB för lagring och visualisering i Grafana.
+![IMG_6618](https://github.com/user-attachments/assets/3c5ff286-71de-48d4-a967-012e8267a04c)
 
 ### **2. Kommunikationsflöde**
 Dataflödet i systemet fungerar enligt följande:
 1. **Sensorenhet**: En fysisk ESP32 med dht sensor samlar in temperatur- och luftfuktighetsdata.
-![IMG_6618](https://github.com/user-attachments/assets/3c5ff286-71de-48d4-a967-012e8267a04c)
+![Screenshot 2024-10-30 at 11 55 15](https://github.com/user-attachments/assets/c94f0e33-f972-4ea7-8645-20aa4da53d89)
 
-2. **MQTT Broker**: Sensorvärden publiceras på MQTT, och brokern säkerställer dataöverföring till Node-RED.
+
+3. **MQTT Broker**: Sensorvärden publiceras på MQTT, och brokern säkerställer dataöverföring till Node-RED.
  ![HIVEMQ CLOUD](https://github.com/user-attachments/assets/9305adfe-6501-4a2e-8962-9dc65017631e)
 
-3. **Node-RED**: Bearbetar och strukturerar data innan den skickas vidare till InfluxDB.
+4. **Node-RED**: Bearbetar och strukturerar data innan den skickas vidare till InfluxDB.
    ![NODERED WORKFLOW](https://github.com/user-attachments/assets/f5dc8171-2522-4605-9d9a-3316bece9003)
 
 
-4. **InfluxDB**: Tar emot och lagrar data i en tidsserie, vilket möjliggör visualisering och analys.
+5. **InfluxDB**: Tar emot och lagrar data i en tidsserie, vilket möjliggör visualisering och analys.
    ![DATA IN INFLUXDB](https://github.com/user-attachments/assets/a1e96885-1ab9-40d8-8008-bafd0e5f95ff)
 
-5. **Grafana**: Används för att skapa dashboards som visualiserar data i realtid.
+6. **Grafana**: Används för att skapa dashboards som visualiserar data i realtid.
 ![GRAFANA GRAPH](https://github.com/user-attachments/assets/6b94b749-d355-4dfb-a5eb-b1ab47716897)
 
 ### **3. Säker Kommunikationsväg**
